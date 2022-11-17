@@ -18,7 +18,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<LogIn />}/>
-          <Route index element={<IndexMA />}/>
           {/* <Route index element={<ListarUsuario />}/> */}
           <Route path='usuario/listar' element={<ListarUsuario />}/>
           <Route path='usuario/crear' element={<CrearUsuario />}/>

@@ -2,7 +2,7 @@
   "name": "reactfinanzas",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://finance-leasing-web-app.github.io/reactFinanzas",
+  "homepage": "http://finance-leasing-web-app.github.io/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
