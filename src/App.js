@@ -17,7 +17,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route index element={<LogIn />}/>
+          <Route index element={<TBDatos />}/>
           {/* <Route index element={<ListarUsuario />}/> */}
           <Route path='usuario/listar' element={<ListarUsuario />}/>
           <Route path='usuario/crear' element={<CrearUsuario />}/>
