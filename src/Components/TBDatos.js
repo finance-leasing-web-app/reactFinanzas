@@ -38,10 +38,27 @@ const TBDatos = () => {
     const [SegRiePer,setSegRiePer]= useState('');
 
     const [COKI,setCOKI]=useState('');
+
+
+
+
     
+    // const [Detalles,setDetalles]=useState([]);
+    const NC = [];
+    const TEA_=[];
+    const Flujo=[];
+    const IA=[];
+    const PG=[];
+    const PP=[];
+
+
+
+
+
 
     const handleChange =(event) =>
     {
+        
         var PV =Number(document.getElementById('PV').value);
         var pCI =Number(document.getElementById('pCI').value);
         
@@ -58,6 +75,32 @@ const TBDatos = () => {
         var NA =Number(document.getElementById('NA').value);
         var N_=fN(NCxA_,NA)
         setN(N_);
+        for (var i=0 ;i<N_+1;i++)
+        {
+            NC[i]=i;
+        }
+        Flujo[0]=Prestamo;
+        
+        var TEA =Number(document.getElementById('TEA').value);
+        // TEA de cada periodo
+        for (var i=0 ;i<N_+1;i++)
+        {
+            TEA_[i]=TEA;
+        }
+        // IA PG PP
+        for (var i=0 ;i<N_+1;i++)
+        {
+            IA[i]=0;
+        }
+        for (var i=0 ;i<N_+1;i++)
+        {
+            PG[i]=0;
+        }
+        for (var i=0 ;i<N_+1;i++)
+        {
+            PP_[i]=0;
+        }
+        
 
         var pSegDes =Number(document.getElementById('pSegDes').value);
         var pSegDesPer_=fpSegDesPer(pSegDes,frec);
@@ -181,7 +224,9 @@ const TBDatos = () => {
                     </td>  
         </tr>
                 {/* Detalles */}
-                <tr><td>TEA</td><td><input type="text"   id="TEA"></input></td></tr>
+                <tr><td>TEA</td><td><input type="text"   id="TEA" onChange={handleChange}></input></td></tr>
+                {/* <tr><td>TEA 1</td><td><input type="text"   id="TEA1"></input></td></tr>
+                <tr><td>TEA 2</td><td><input type="text"   id="TEA2"></input></td></tr> */}
                 <tr><td>IA</td><td><input type="text"   id="IA"></input></td></tr>
                 <tr>
                     <td colSpan="2">
@@ -190,7 +235,7 @@ const TBDatos = () => {
                             <th>N°</th><th>TEA</th><th>i" = TEP = TEM</th><th>IA</th><th>IP</th><th>P.G.</th><th>Saldo Inicial</th><th>Saldo Inicial Indexado</th><th>Interes</th><th>Cuota</th><th>Amort.</th><th>Prepago</th><th>Seguro desgrav</th><th>Seguro riesgo</th><th>Comisión</th><th>Portes</th><th>Gastos Adm</th><th>SaldoFinal</th><th>Flujo</th>
                         </thead>
                         <tbody>
-                            
+
                         </tbody>
                     </table>
                     </td>
