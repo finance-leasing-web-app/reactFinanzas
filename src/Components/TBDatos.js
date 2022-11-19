@@ -7,7 +7,7 @@ const TBDatos = () => {
     const [Saldo,setSaldo]= useState('');
     function fSaldo(a,b)
     {   
-        return a-((b/a))*100;
+        return (a*(100-b)/100);
     }
 
     const [Prestamo,setPrestamo]= useState('');
@@ -83,13 +83,9 @@ const TBDatos = () => {
         var GasAdmPer   =Number(document.getElementById('GasAdmPer').value);
         var COK     =Number(document.getElementById('COK').value);
 
-        var COKI_=Math.pow(1+COK,frec/NDxA)-1;
+        var COKI_=Math.pow(1+(COK/100),frec/NDxA)-1;
         setCOKI(COKI_);
 
-        
-        
-        
-        
         
 
         // console.log(Saldo);
@@ -185,6 +181,8 @@ const TBDatos = () => {
                     </td>  
         </tr>
                 {/* Detalles */}
+                <tr><td>TEA</td><td><input type="text"   id="TEA"></input></td></tr>
+                <tr><td>IA</td><td><input type="text"   id="IA"></input></td></tr>
                 <tr>
                     <td colSpan="2">
                     <table>
@@ -192,7 +190,7 @@ const TBDatos = () => {
                             <th>N°</th><th>TEA</th><th>i" = TEP = TEM</th><th>IA</th><th>IP</th><th>P.G.</th><th>Saldo Inicial</th><th>Saldo Inicial Indexado</th><th>Interes</th><th>Cuota</th><th>Amort.</th><th>Prepago</th><th>Seguro desgrav</th><th>Seguro riesgo</th><th>Comisión</th><th>Portes</th><th>Gastos Adm</th><th>SaldoFinal</th><th>Flujo</th>
                         </thead>
                         <tbody>
-
+                            
                         </tbody>
                     </table>
                     </td>
