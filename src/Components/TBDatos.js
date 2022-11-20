@@ -39,21 +39,38 @@ const TBDatos = () => {
 
     const [COKI,setCOKI]=useState('');
 
-
-
-
     
-    // const [Detalles,setDetalles]=useState([]);
+    
     const NC = [];
     const TEA_=[];
     const Flujo=[];
     const IA=[];
     const PG=[];
     const PP=[];
-
-
-
-
+    const TEP=[];
+    const IP =[];
+    const SI =[];
+    const SII=[];
+    const I=[];
+    const SF=[];
+    const SegDes=[];
+    const Cuota=[];
+    const A=[];
+    const SegRie=[];
+    const Comision=[];
+    const Portes=[];
+    const GasAdm=[];
+    
+    const [Interes,setInteres]= useState('');
+    //var Interes;
+    var Amortizacion;
+    var SeguroRie;
+    var ComisionesPe;
+    var Portes_;
+    var TIR;
+    var VAN_;
+//  const [Detalles,setDetalles]=useState([]);
+    
 
 
     const handleChange =(event) =>
@@ -94,11 +111,11 @@ const TBDatos = () => {
         }
         for (var i=0 ;i<N_+1;i++)
         {
-            PG[i]=0;
+            PG[i]='S';
         }
         for (var i=0 ;i<N_+1;i++)
         {
-            PP_[i]=0;
+            PP[i]=0;
         }
         
 
@@ -106,7 +123,7 @@ const TBDatos = () => {
         var pSegDesPer_=fpSegDesPer(pSegDes,frec);
         setpSegDesPer(pSegDesPer_);
 
-
+        
         var pSegRie =Number(document.getElementById('pSegRie').value);
         var SegRiePer_=(pSegRie/100)*PV/NCxA;
         setSegRiePer(SegRiePer_);
@@ -117,25 +134,174 @@ const TBDatos = () => {
         var GI3 =Number(document.getElementById('GI3').value);
         var GI4 =Number(document.getElementById('GI4').value);
         var GI5 =Number(document.getElementById('GI5').value);
+        
 
         var Prestamo_=fPrestamo(GI1,GI2,GI3,GI4,GI5,Saldo_);
         setPrestamo(Prestamo_);
 
-        var ComPer      =Number(document.getElementById('ComPer').value);    
-        var PortesPer   =Number(document.getElementById('PortesPer').value);
-        var GasAdmPer   =Number(document.getElementById('GasAdmPer').value);
         var COK     =Number(document.getElementById('COK').value);
-
         var COKI_=Math.pow(1+(COK/100),frec/NDxA)-1;
         setCOKI(COKI_);
-
         
 
-        // console.log(Saldo);
+        var TEP_=Math.pow((1+TEA/100),(frec/NDxA))-1;
+        for (var i=0 ; i<N_+1 ;i++)
+        {
+            TEP[i]=TEP_;
+        }
+
+        var IP_=Math.pow((1+IA[0]/100),(frec/NDxA))-1;
+        for (var i=0 ; i<N_+1 ;i++)
+        {
+            IP[i]=IP_;
+        }
+        
+        //SegRie
+         for (var i=0 ;i<N_+1;i++)
+         {
+             SegRie[i]=-SegRiePer;
+         }
+
+
+        //Comision
+        var ComPer =Number(document.getElementById('ComPer').value);
+          for(var i=0;i<N_+1;i++)
+          {
+              Comision[i]=-ComPer;
+          }
+
+
+        //Portes
+        var PortesPer =Number(document.getElementById('PortesPer').value);
+        for(var i=0;i<N_+1;i++)
+        {
+            Portes[i]=-PortesPer;
+        }
+          
+        
+        //GasAdm
+        var GasAdmPer   =Number(document.getElementById('GasAdmPer').value);
+        for(var i=0;i<N_+1;i++)
+        {
+            GasAdm[i]=-GasAdmPer;
+        }
+
+        //A[i]
+        
+          for(var i=0;i<N_+1;i++)
+          {
+            if(PG==='T'||PG==='G')
+            {
+              A[i]=0;
+            }
+            else
+            {
+              A[i]=-SII[i]/(N-NC[i]+1);
+            }  
+          }
+
+        //SII
+        for (var i=0 ; i<N_+1 ;i++)
+        {
+            if(i===0)
+            {
+                SII[0]=0; 
+            }  
+            else
+            {
+                SII[i]=SI[i]+SI[i]*IP[i];
+            }
+        }  
+        
+        
+        // SI
+        for (var i=0 ; i<N_+1 ;i++)
+          {
+              if(i===1)
+              {
+                  SI[1]=Prestamo; 
+              }  
+              else
+              {
+                  SI[i]=SF[i-1]; 
+              }
+          }
+         
+        //I        
+        for (var i=0 ; i<N_+1 ;i++)
+        {
+            if(i===0)
+            {
+                I[0]=0; 
+            }  
+            else
+            {
+                I[i]=SII[i]*TEP[i]; 
+            }   
+        }
+
+        //SegDes
+        for (var i=0 ; i<N_+1 ;i++)
+        {
+            SegDes[i]=-SII[i]*pSegDesPer;
+        }  
+        
+        
+        //Cuota
+          for (var i=0 ; i<N_+1 ;i++)
+           {
+               if(PG==='T')
+               {
+                   Cuota[i]=0; 
+               }  
+               else if(PG==='P')
+               {
+                   Cuota[i]=I[i];
+               }
+               else
+                {
+                   Cuota[i]=I[i]+A[i]+SegDes[i];
+                }   
+           }
+
+        //SF             
+          for (var i=0 ; i<N_+1 ;i++)
+          {
+              if(i===0)
+              {
+                  SF[0]=0; 
+              }  
+              else
+              {
+                  if(PG==='T')
+                  {
+                      SF[i]=SII[i]-I[i]
+                  }
+                  else
+                  {
+                      SF[i]=SII[i]+A[i]+PP[i];
+                  }
+              }
+          }
+
+
+        //Flujo
+        
+         for(var i=0; i<N_+1 ;i++)
+         {
+             if(PG==='T'||PG==='P')
+             {
+                 Flujo[i]=Cuota[i]+PP[i]+SegRie[i]+Comision[i]+Portes[i]+GasAdm[i]+SegDes[i];
+             }
+             else
+             {
+                 Flujo[i]=Cuota[i]+PP[i]+SegRie[i]+Comision[i]+Portes[i]+GasAdm[i];
+             }
+         }
+         
+         
     }
 
-    
-    
 
     return (  
         <div classid="TBDatos">
@@ -205,18 +371,18 @@ const TBDatos = () => {
                                               <tr><td></td><td>Seguro de riesgo</td><td>{SegRiePer}</td></tr>
 
                                               <tr><td></td><td>...totales por...</td><td></td></tr>
-                                              <tr><td></td><td>Intereses</td><td>                           <input type="text" id="Totales1"></input></td></tr>
-                                              <tr><td>Resultados …</td><td>Amortización del capital</td><td><input type="text" id="Totales2"></input></td></tr>
-                                              <tr><td></td><td>Seguro contra todo riesgo</td><td>           <input type="text" id="Totales3"></input></td></tr>
-                                              <tr><td></td><td>Comisiones periodicas</td><td>               <input type="text" id="Totales4"></input></td></tr>
-                                              <tr><td></td><td>Portes / Gastos de adm.</td><td>                            <input type="text" id="Totales5"></input></td></tr>
+                                              <tr><td></td><td>Intereses</td><td>{Interes}</td></tr>
+                                              <tr><td>Resultados …</td><td>Amortización del capital</td><td></td></tr>
+                                              <tr><td></td><td>Seguro contra todo riesgo</td><td>            </td></tr>
+                                              <tr><td></td><td>Comisiones periodicas</td><td>                </td></tr>
+                                              <tr><td></td><td>Portes / Gastos de adm.</td><td>              </td></tr>
                                   <tr>
                                               <td></td><td>… de Indicadores de Rentabilidad</td>
                                   </tr>
                                               <tr><td></td><td>Tasa de descuento</td><td>{COKI}</td></tr>
-                                              <tr><td></td><td>TIR de la operacion</td><td><input type="text"   id="TIR"></input></td></tr>                    
-                                              <tr><td></td><td>TCEA de la operacion</td><td></td></tr>
-                                              <tr><td></td><td>VAN operacion</td><td><input type="text"    id="VAN"></input></td></tr>
+                                              <tr><td></td><td>TIR de la operacion</td><td>                 </td></tr>                    
+                                              <tr><td></td><td>TCEA de la operacion</td><td>                </td></tr>
+                                              <tr><td></td><td>VAN operacion</td><td>  <input></input>                     </td></tr>
                                  </tbody>     
                             </table>  
                         </tbody>
@@ -224,9 +390,7 @@ const TBDatos = () => {
                     </td>  
         </tr>
                 {/* Detalles */}
-                <tr><td>TEA</td><td><input type="text"   id="TEA" onChange={handleChange}></input></td></tr>
-                {/* <tr><td>TEA 1</td><td><input type="text"   id="TEA1"></input></td></tr>
-                <tr><td>TEA 2</td><td><input type="text"   id="TEA2"></input></td></tr> */}
+                <tr><td>TEA</td><td><input type="text"  id="TEA" onChange={handleChange}></input></td></tr>
                 <tr><td>IA</td><td><input type="text"   id="IA"></input></td></tr>
                 <tr>
                     <td colSpan="2">
